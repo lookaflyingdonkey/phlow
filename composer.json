@@ -1,5 +1,6 @@
 {
   "name": "lookaflyingdonkey/phlow",
+  "version": "0.0.1",
   "type": "library",
   "description": "Uses AWS Simple Workflow Service to provide JSON based job flows",
   "keywords": ["flow", "aws", "swf", "workflow", "json"],
