@@ -1,0 +1,23 @@
+{
+  "name": "lookaflyingdonkey/phlow",
+  "type": "library",
+  "description": "Uses AWS Simple Workflow Service to provide JSON based job flows",
+  "keywords": ["flow", "aws", "swf", "workflow", "json"],
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Dean Collins",
+      "email": "lookaflyingdonkey@icloud.com",
+      "role": "Developer"
+    }
+  ],
+  "require": {
+    "aws/aws-sdk-php": "2.*",
+    "monolog/monolog": "^1.17"
+  },
+  "autoload": {
+      "psr-4": {
+          "Phlow\\": "src/"
+      }
+  }
+}
