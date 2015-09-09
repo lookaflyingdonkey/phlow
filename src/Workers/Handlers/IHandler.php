@@ -9,11 +9,10 @@ use Phlow\Task;
  * @author Dean Collins <lookaflyingdonkey@icloud.com>
  * @package Phlow\Workers\Handlers
  */
-abstract class Handler {
+interface IHandler {
 
-    private $name = '';
-    private $version = '';
-    private $description = '';
-    private $icon = '';
+    public function handle(Aws $aws, Task $task);
+
+    public function describe();
 
 }
