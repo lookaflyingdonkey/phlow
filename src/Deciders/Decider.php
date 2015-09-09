@@ -120,7 +120,7 @@ class Decider {
                 'control' => $number,
                 'activityType' => $task['task'],
                 'activityId' => $task['task']['name'] . time(),
-                'input' => base64_encode(json_encode($this->job->parseTaskOptions($task['options']))),
+                'input' => base64_encode(json_encode($this->job->parseTaskInputs($task['inputs']))),
                 'scheduleToCloseTimeout' => '3900',
                 'taskList' => array('name' => strtolower("{$this->taskList}-{$task['task']['name']}-{$task['task']['version']}")),
                 'scheduleToStartTimeout' => '300',
