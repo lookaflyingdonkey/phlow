@@ -32,17 +32,17 @@ class Decider {
 
     /**
      *
-     * @param string $config File path to the AWS JSON config file
+     * @param Aws $aws The aws factory
      * @param string $domain AWS SWF Domain to watch
      * @param string $taskList AWS SWF task list to watch
      * @param string $identity The name this decider will take on
      */
-    public function __construct($config, $domain, $taskList, $identity = null)
+    public function __construct(Aws $aws, $domain, $taskList, $identity = null)
     {
 
         $this->setup($identity, $domain, $taskList);
 
-        $this->aws = Aws::factory($config);
+        $this->aws = $aws;
         $this->swfClient = $this->aws->get('swf');
     }
 
