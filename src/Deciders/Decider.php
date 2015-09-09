@@ -32,17 +32,17 @@ class Decider {
 
     /**
      *
-     * @param string $config File path to the AWS JSON config file
+     * @param Aws $aws The aws factory
      * @param string $domain AWS SWF Domain to watch
      * @param string $taskList AWS SWF task list to watch
      * @param string $identity The name this decider will take on
      */
-    public function __construct($config, $domain, $taskList, $identity = null)
+    public function __construct(Aws $aws, $domain, $taskList, $identity = null)
     {
 
         $this->setup($identity, $domain, $taskList);
 
-        $this->aws = Aws::factory($config);
+        $this->aws = $aws;
         $this->swfClient = $this->aws->get('swf');
     }
 
@@ -120,7 +120,7 @@ class Decider {
                 'control' => $number,
                 'activityType' => $task['task'],
                 'activityId' => $task['task']['name'] . time(),
-                'input' => base64_encode(json_encode($this->job->parseTaskOptions($task['options']))),
+                'input' => base64_encode(json_encode($this->job->parseTaskInputs($task['inputs']))),
                 'scheduleToCloseTimeout' => '3900',
                 'taskList' => array('name' => strtolower("{$this->taskList}-{$task['task']['name']}-{$task['task']['version']}")),
                 'scheduleToStartTimeout' => '300',

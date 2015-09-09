@@ -144,13 +144,13 @@ class Job {
         return $this->token;
     }
 
-    public function parseTaskOptions($options)
+    public function parseTaskInputs($options)
     {
         foreach($options as $key => $val) {
             if(is_array($val)) {
-                $options[$key] = $this->parseTaskOptions($val);
+                $options[$key] = $this->parseTaskInputs($val);
             } else {
-                $options[$key] = $this->eventManager->evaluateOption($val);
+                $options[$key] = $this->eventManager->evaluateInput($val);
             }
 
         }

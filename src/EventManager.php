@@ -135,7 +135,7 @@ class EventManager {
      * @return mixed
      * @todo: Need to move the option collection out to a class
      */
-    public function evaluateOption($option)
+    public function evaluateInput($option)
     {
         $parsed = parse_url($option);
         if(!isset($parsed["scheme"])) return $option;
