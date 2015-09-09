@@ -11,6 +11,6 @@ use Phlow\Task;
  */
 interface Handler {
 
-    public static function handle(Aws $aws, Task $task);
+    public function handle(Aws $aws, Task $task);
 
 }
