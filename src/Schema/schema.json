@@ -1,0 +1,63 @@
+{
+  "$schema":"http://json-schema.org/draft-04/schema#",
+  "type":"object",
+  "additionalProperties": false,
+  "properties":{
+    "steps": {
+      "$ref": "#/definitions/Step"
+    }
+  },
+  "required":[
+    "steps"
+  ],
+  "definitions": {
+    "Step": {
+      "type":"object",
+      "additionalProperties":{
+        "required":[
+          "task",
+          "inputs"
+        ],
+        "type":"object",
+        "additionalProperties":false,
+        "properties":{
+          "task":{
+            "additionalProperties":false,
+            "type":"object",
+            "properties":{
+              "name":{
+                "type":"string"
+              },
+              "version":{
+                "type":"string"
+              }
+            }
+          },
+          "wait_for_signal":{
+            "additionalProperties":false,
+            "required": [
+              "name",
+              "timer",
+              "max_retries"
+            ],
+            "type":"object",
+            "properties":{
+              "name":{
+                "type":"string"
+              },
+              "timer":{
+                "type":"integer"
+              },
+              "max_retries":{
+                "type":"integer"
+              }
+            }
+          },
+          "inputs":{
+            "type":"object"
+          }
+        }
+      }
+    }
+  }
+}
