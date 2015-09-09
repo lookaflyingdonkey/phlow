@@ -26,16 +26,16 @@ class Worker {
 
     /**
      *
-     * @param string $config Filepath to the AWS JSON config file
+     * @param Aws $aws The aws factory
      * @param string $domain AWS SWF Domain to watch
      * @param string $taskList AWS SWF task list to watch
      * @param string $identity The name this worker will take on
      * @param Handler $handler The Class that will handle events caught by this worker
      */
-    public function __construct($config, $domain, $taskList, $identity, Handler $handler)
+    public function __construct(Aws $aws, $domain, $taskList, $identity, Handler $handler)
     {
         $this->setup($identity, $domain, $taskList);
-        $this->aws = Aws::factory($config);
+        $this->aws = $aws;
         $this->swfClient = $this->aws->get('swf');
         $this->handler = $handler;
     }

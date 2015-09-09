@@ -9,7 +9,7 @@ class ExampleHandler implements Handler {
      * @param Task $task
      * @return array
      */
-    public static function handle(Aws $aws, Task $task)
+    public function handle(Aws $aws, Task $task)
     {
 
         $result = strtoupper($task->getInput("string"));
