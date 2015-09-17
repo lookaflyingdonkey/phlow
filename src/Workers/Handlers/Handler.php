@@ -11,9 +11,26 @@ use Phlow\Task;
  */
 abstract class Handler {
 
-    private $name = '';
-    private $version = '';
-    private $description = '';
-    private $icon = '';
+    protected $name = '';
+    protected $version = '';
+    protected $description = '';
+    protected $icon = '';
 
+    /**
+     * Returns the meta and schema for this handler, used for UI rendering and validation
+     *
+     * @return array
+     */
+    public function describe()
+    {
+        return [
+            'meta' => [
+                'name' => $this->name,
+                'version' => $this->version,
+                'description' => $this->description,
+                'icon' => $this->icon,
+            ],
+            'schema' => $this->getSchema()
+        ];
+    }
 }
