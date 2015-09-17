@@ -1,6 +1,5 @@
 <?php namespace Phlow\Deciders;
 
-use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
 use Monolog\Registry;
 use Phlow\Job;
@@ -32,17 +31,17 @@ class Decider {
 
     /**
      *
-     * @param string $config File path to the AWS JSON config file
+     * @param Aws $aws The aws factory
      * @param string $domain AWS SWF Domain to watch
      * @param string $taskList AWS SWF task list to watch
      * @param string $identity The name this decider will take on
      */
-    public function __construct($config, $domain, $taskList, $identity = null)
+    public function __construct(Aws $aws, $domain, $taskList, $identity = null, Logger $logger)
     {
 
-        $this->setup($identity, $domain, $taskList);
+        $this->setup($identity, $domain, $taskList, $logger);
 
-        $this->aws = Aws::factory($config);
+        $this->aws = $aws;
         $this->swfClient = $this->aws->get('swf');
     }
 
@@ -52,7 +51,7 @@ class Decider {
      * @param string $domain
      * @param string $taskList
      */
-    private function setup($identity, $domain, $taskList)
+    private function setup($identity, $domain, $taskList, Logger $logger)
     {
         if(!$identity) {
             $this->identity = get_class() . '-' . microtime();
@@ -63,8 +62,6 @@ class Decider {
 
         // Setup logging
         if(!Registry::hasLogger('PhlowLog')) {
-            $logger = new Logger('phlow');
-            $logger->pushHandler(new StreamHandler("phlow.log"));
             Registry::addLogger($logger, 'PhlowLog');
         }
 
@@ -120,7 +117,7 @@ class Decider {
                 'control' => $number,
                 'activityType' => $task['task'],
                 'activityId' => $task['task']['name'] . time(),
-                'input' => base64_encode(json_encode($this->job->parseTaskOptions($task['options']))),
+                'input' => base64_encode(json_encode($this->job->parseTaskInputs($task['inputs']))),
                 'scheduleToCloseTimeout' => '3900',
                 'taskList' => array('name' => strtolower("{$this->taskList}-{$task['task']['name']}-{$task['task']['version']}")),
                 'scheduleToStartTimeout' => '300',
