@@ -1,6 +1,5 @@
 <?php namespace Phlow\Workers;
 
-use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
 use Monolog\Registry;
 use Phlow\Task;
@@ -32,9 +31,9 @@ class Worker {
      * @param string $identity The name this worker will take on
      * @param Handler $handler The Class that will handle events caught by this worker
      */
-    public function __construct(Aws $aws, $domain, $taskList, $identity, Handler $handler)
+    public function __construct(Aws $aws, $domain, $taskList, $identity, Handler $handler, Logger $logger)
     {
-        $this->setup($identity, $domain, $taskList);
+        $this->setup($identity, $domain, $taskList, $logger);
         $this->aws = $aws;
         $this->swfClient = $this->aws->get('swf');
         $this->handler = $handler;
@@ -46,7 +45,7 @@ class Worker {
      * @param string $domain
      * @param string $taskList
      */
-    private function setup($identity, $domain, $taskList)
+    private function setup($identity, $domain, $taskList, Logger $logger)
     {
         if(!$identity) {
             $this->identity = get_class() . '-' . microtime();
@@ -57,8 +56,6 @@ class Worker {
 
         // Setup logging
         if(!Registry::hasLogger('PhlowLog')) {
-            $logger = new Logger('phlow');
-            $logger->pushHandler(new StreamHandler("phlow.log"));
             Registry::addLogger($logger, 'PhlowLog');
         }
     }
