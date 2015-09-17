@@ -54,21 +54,4 @@ class ExampleHandler extends Handler implements IHandler {
         }';
     }
 
-    /**
-     * Returns the meta and schema for this handler, used for UI rendering and validation
-     *
-     * @return array
-     */
-    public function describe()
-    {
-        return [
-            'meta' => [
-                'name' => $this->name,
-                'version' => $this->version,
-                'description' => $this->description,
-                'icon' => $this->icon
-            ],
-            'schema' => $this->getSchema()
-        ];
-    }
 }
