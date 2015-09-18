@@ -1,6 +1,6 @@
 {
   "name": "lookaflyingdonkey/phlow",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "type": "library",
   "description": "Uses AWS Simple Workflow Service to provide JSON based job flows",
   "keywords": ["flow", "aws", "swf", "workflow", "json"],
@@ -13,7 +13,7 @@
     }
   ],
   "require": {
-    "aws/aws-sdk-php": "2.*",
+    "aws/aws-sdk-php": "^3.3",
     "monolog/monolog": "^1.17",
     "justinrainbow/json-schema": "~1.3"
   },
