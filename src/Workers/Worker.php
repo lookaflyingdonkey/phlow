@@ -1,11 +1,10 @@
 <?php namespace Phlow\Workers;
 
+use Aws\Swf\SwfClient;
 use Monolog\Logger;
 use Monolog\Registry;
 use Phlow\Task;
 use Phlow\Workers\Handlers\Handler;
-
-use Aws\Common\Aws;
 
 /**
  * Takes a AWS ActivityTask and processes it and returns a result
@@ -18,24 +17,22 @@ class Worker {
     private $domain = '';
     private $taskList = '';
 
-    private $aws;
     private $swfClient;
 
     private $handler;
 
     /**
      *
-     * @param Aws $aws The aws factory
+     * @param SwfClient $swfClient The AWS Simple Workflow Client
      * @param string $domain AWS SWF Domain to watch
      * @param string $taskList AWS SWF task list to watch
      * @param string $identity The name this worker will take on
      * @param Handler $handler The Class that will handle events caught by this worker
      */
-    public function __construct(Aws $aws, $domain, $taskList, $identity, Handler $handler, Logger $logger)
+    public function __construct(SwfClient $swfClient, $domain, $taskList, $identity, Handler $handler, Logger $logger)
     {
         $this->setup($identity, $domain, $taskList, $logger);
-        $this->aws = $aws;
-        $this->swfClient = $this->aws->get('swf');
+        $this->swfClient = $swfClient;
         $this->handler = $handler;
     }
 
@@ -86,7 +83,7 @@ class Worker {
                 Registry::PhlowLog()->addInfo('Trying to process request');
 
                 try {
-                    $results = $this->handler->handle($this->aws, $task);
+                    $results = $this->handler->handle($this->swfClient, $task);
 
                     Registry::PhlowLog()->addInfo('Task Handled successfully');
                     $this->swfClient->respondActivityTaskCompleted(array(

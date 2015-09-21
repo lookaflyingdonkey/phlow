@@ -3,10 +3,8 @@
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
 use Monolog\Registry;
-use Phlow\Events\Data\SignalData;
-use Phlow\Events\Data\StepData;
 
-use Aws\Swf\Enum\EventType;
+use Phlow\Enum\SWF\EventType;
 
 /**
  * Represents a Job Run, used by the decider to route tasks

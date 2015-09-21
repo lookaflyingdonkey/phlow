@@ -1,6 +1,7 @@
 <?php namespace Phlow\Workers\Handlers;
 
 use Aws\Common\Aws;
+use Aws\Swf\SwfClient;
 use Phlow\Task;
 
 /**
@@ -11,7 +12,7 @@ use Phlow\Task;
  */
 interface IHandler {
 
-    public function handle(Aws $aws, Task $task);
+    public function handle(SwfClient $swfClient, Task $task);
 
     public function describe();
 

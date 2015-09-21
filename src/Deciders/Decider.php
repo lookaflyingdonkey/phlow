@@ -1,12 +1,12 @@
 <?php namespace Phlow\Deciders;
 
+use Aws\Swf\SwfClient;
 use Monolog\Logger;
 use Monolog\Registry;
 use Phlow\Job;
 
-use Aws\Swf\Enum\EventType;
-use Aws\Common\Aws;
-use Aws\Swf\Enum\DecisionType;
+use Phlow\Enum\SWF\EventType;
+use Phlow\Enum\SWF\DecisionType;
 
 /**
  * Determines what the next course of action should be for a Job.
@@ -19,7 +19,6 @@ class Decider {
     private $taskList = '';
     private $identity = '';
 
-    private $aws;
     private $swfClient;
 
     /**
@@ -31,18 +30,17 @@ class Decider {
 
     /**
      *
-     * @param Aws $aws The aws factory
+     * @param SwfClient $swfClient The AWS Simple Workflow Client
      * @param string $domain AWS SWF Domain to watch
      * @param string $taskList AWS SWF task list to watch
      * @param string $identity The name this decider will take on
      */
-    public function __construct(Aws $aws, $domain, $taskList, $identity = null, Logger $logger)
+    public function __construct(SwfClient $swfClient, $domain, $taskList, $identity = null, Logger $logger)
     {
 
         $this->setup($identity, $domain, $taskList, $logger);
 
-        $this->aws = $aws;
-        $this->swfClient = $this->aws->get('swf');
+        $this->swfClient = $swfClient;
     }
 
     /**

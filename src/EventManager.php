@@ -1,6 +1,6 @@
 <?php namespace Phlow;
 
-use Aws\Swf\Enum\EventType;
+use Phlow\Enum\SWF\EventType;
 use Phlow\Events\Data\SignalData;
 use Phlow\Events\Data\StepData;
 
