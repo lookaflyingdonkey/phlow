@@ -140,10 +140,8 @@ class EventManager {
         $parsed = parse_url($option);
         if(!isset($parsed["scheme"])) return $option;
 
-        echo "Trying to evaluate " . $parsed['scheme'] . PHP_EOL;
         if($parsed['scheme'] == "signal" || in_array($parsed['scheme'], array_keys($this->optionData))) {
             if($parsed["scheme"] == "signal") {
-                echo "Checking for signal data" . PHP_EOL;
                 // Check if the signal has been triggered and grab the data
                 $value = $this->signalData[$parsed["host"]]->getInput($parsed["path"]);
                 if(!$value) return $option;
@@ -157,7 +155,6 @@ class EventManager {
             }
 
             if($parsed['host'] == 'inputs') {
-                echo "Inside inputs for {$parsed['scheme']}" . PHP_EOL;
                 $value = $this->optionData[$parsed['scheme']]->getInput($parsed['path']);
 
                 if(!$value) return $option;

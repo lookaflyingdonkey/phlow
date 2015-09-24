@@ -145,10 +145,16 @@ class Job {
     public function parseTaskInputs($options)
     {
         foreach($options as $key => $val) {
-            if(is_array($val)) {
+            Registry::PhlowLog()->addDebug(
+                "Parsing input: '{$key}' with path '{$val}'..."
+            );
+            if (is_array($val)) {
                 $options[$key] = $this->parseTaskInputs($val);
             } else {
                 $options[$key] = $this->eventManager->evaluateInput($val);
+                Registry::PhlowLog()->addDebug(
+                    "Parsed value: '{$options[$key]}'"
+                );
             }
 
         }
